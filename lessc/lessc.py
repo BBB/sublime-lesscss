@@ -10,7 +10,7 @@ class CompileLessOnSave(sublime_plugin.EventListener):
             startupinfo = subprocess.STARTUPINFO()
             startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
 
-        folder_name, file_name = os.path.split(view.file_name())        
-        args = ['lessc', '-m', file_name]        
+        folder_name, file_name = os.path.split(view.file_name())
+        args = [sublime.packages_path() + '\lessc\windows\lessc.exe', '-m', file_name]        
         view.window().run_command('exec', {'cmd': args, 'working_dir': folder_name})
         process = subprocess.Popen(args, stdin=subprocess.PIPE, stdout=subprocess.PIPE, startupinfo=startupinfo)

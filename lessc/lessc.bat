@@ -1,1 +1,0 @@
-@C:\lessc\lessc.exe %*

@@ -1,4 +1,5 @@
 import sublime, sublime_plugin, os
+from lessc_opts import lessc_opts
 
 class CompileLessOnSave(sublime_plugin.EventListener):
     def on_post_save(self, view):
@@ -8,9 +9,18 @@ class CompileLessOnSave(sublime_plugin.EventListener):
 
         folder_name, file_name = os.path.split(view.file_name()) 
         args = []
+        path = ''
+        
         if os.name == "nt":
-            args = [sublime.packages_path() + '\lessc\windows\lessc.exe', file_name]
+            args = [sublime.packages_path() + '\lessc\windows\lessc.exe']
+            if lessc_opts['min']:
+                args.append('-m')
         else:
-            args = ['lessc', file_name]             
+            args = ['lessc', file_name]
+            path = '/usr/local/bin'
+            if lessc_opts['min']:
+                args.append('-x')
 
-        view.window().run_command('exec', {'cmd': args, 'working_dir': folder_name})
+        args.append(file_name)
+
+        view.window().run_command('exec', {'cmd': args, 'working_dir': folder_name, 'path':path })

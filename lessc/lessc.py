@@ -8,21 +8,22 @@ class CompileLessOnSave(sublime_plugin.EventListener):
             return
 
         folder_name, file_name = os.path.split(view.file_name()) 
+
         args = []
         path = ''
+
         out_file_name = file_name.replace('.less', '.css')
         
         if os.name == "nt":
             args = [sublime.packages_path() + '\lessc\windows\lessc.exe']
             if lessc_opts['min']:
                 args.append('-m')
+            args.append(view.file_name())
         else:
             args = ['lessc', file_name]
             path = '/usr/local/bin'
             if lessc_opts['min']:
                 args.append('-x')
-
-        args.append(out_file_name)
 
         view.window().run_command('exec', {'cmd': args, 'working_dir': folder_name, 'path':path })
 

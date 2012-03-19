@@ -19,6 +19,13 @@ class CompileLessOnSave(sublime_plugin.EventListener):
             if lessc_opts['min']:
                 args.append('-m')
             args.append(view.file_name())
+            if lessc_opts['split_folders']:
+                if folder_name[-4:] == 'less':
+                    folder_path, css_folder_name = os.path.split(folder_name)
+                    folder_path = os.path.join(folder_path, 'css')
+                    if not os.path.isdir(folder_path): os.mkdir(folder_path)
+                    out_path = os.path.join(folder_path, out_file_name)
+                    args.append(out_path)
         else:
             args = ['lessc', file_name]
             path = '/usr/local/bin'

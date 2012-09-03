@@ -40,10 +40,3 @@ class CompileLessOnSave(sublime_plugin.EventListener):
                 args.append(out_path)
 
         view.window().run_command('exec', {'cmd': args, 'working_dir': folder_name, 'path': path})
-
-        if lessc_opts['use_tabs']:
-            openfile = open(out_path, 'r+w')
-            css = openfile.read()
-            css = css.replace('  ', '\t')
-            openfile.write(css)
-            openfile.close()

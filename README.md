@@ -19,5 +19,5 @@ Installation
 
 1.  install node.js http://nodejs.org/ and node package manager http://npmjs.org/
 2.  install lessc globally using node package manager 'sudo npm install forever -g less'
-4.  Copy lessc folder into your packages folder
+4.  Copy lesscss folder into your packages folder
 5.  Save a file with the .less extension

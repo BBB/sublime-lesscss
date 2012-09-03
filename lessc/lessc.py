@@ -16,30 +16,33 @@ class CompileLessOnSave(sublime_plugin.EventListener):
         path = ''
 
         out_file_name = file_name.replace('.less', '.css')
+        out_path = os.path.join(folder_name, out_file_name)
 
         if os.name == "nt":
             args = [sublime.packages_path() + '\lessc\windows\lessc.exe']
             if lessc_opts['min']:
                 args.append('-m')
             args.append(view.file_name())
-            if lessc_opts['split_folders']:
-                if folder_name[-4:] == 'less':
-                    folder_path, css_folder_name = os.path.split(folder_name)
-                    folder_path = os.path.join(folder_path, 'css')
-                    if not os.path.isdir(folder_path):
-                        os.mkdir(folder_path)
-                    out_path = os.path.join(folder_path, out_file_name)
-                    args.append(out_path)
+
         else:
-            args = ['lessc', file_name]
+            args = ['lessc', view.file_name()]
             path = '/usr/local/bin'
             if lessc_opts['min']:
                 args.append('-x')
 
+        if lessc_opts['split_folders']:
+            if folder_name[-4:] == 'less':
+                folder_path, css_folder_name = os.path.split(folder_name)
+                folder_path = os.path.join(folder_path, 'css')
+                if not os.path.isdir(folder_path):
+                    os.mkdir(folder_path)
+                out_path = os.path.join(folder_path, out_file_name)
+                args.append(out_path)
+
         view.window().run_command('exec', {'cmd': args, 'working_dir': folder_name, 'path': path})
 
         if lessc_opts['use_tabs']:
-            openfile = open(os.path.join(folder_name, out_file_name), 'r+w')
+            openfile = open(out_path, 'r+w')
             css = openfile.read()
             css = css.replace('  ', '\t')
             openfile.write(css)

@@ -1,8 +1,5 @@
-Sublime Text 2 Plugins
+Sublime Text 2 Less CSS Plugin
 ===============================================
-
-lessc.py
-========
 
 A plugin for compiling [.less](http://lesscss.org/) files to .css on save.
 
